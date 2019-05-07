@@ -120,7 +120,7 @@ var config = {
       case 'delete' :
         var target = document.getElementById('want_to_delete').value.toString();
         console.log(target);
-        firebase_.ref(target).remove();
+        firebase_.ref('member').child(target).remove();
         break;
     }
 
