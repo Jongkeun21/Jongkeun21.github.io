@@ -28,6 +28,9 @@ var config = {
   // myPromise();
 
   function renewal() {
+    member_ = [];
+    console.log('init member array : ' + member_.length);
+
     firebase_.ref('member').on('value', function(data) {
       // member_.push(data.val());
       for(i in data.val()) {
@@ -37,7 +40,7 @@ var config = {
         member_[member_.length] = {name: i, age: age_arr[0].age};
         // console.log(member_.length);
         age_arr = [];
-        console.log(member_.length);
+        // console.log(member_.length);
       }
 
       show();
@@ -50,11 +53,10 @@ var config = {
     document.getElementById("show").innerHTML = '';
     
     for(k=0;k<member_.length;k++) {
-      document.getElementById("show").innerHTML += "NAME : " + member_[k].name + "  |   AGE : " + member_[k].age + "<br/>";
-      console.log(k);
+      document.getElementById("show").innerHTML += k + ": NAME : " + member_[k].name + "  |   AGE : " + member_[k].age + "<br/>";
+      // console.log(k);
     }
-    
-    // console.log(member_.length);
+
     console.log('show');
   }
 
@@ -63,9 +65,7 @@ var config = {
   var init = function() {
       document.getElementById('info').value = "";
       document.getElementById('age_from_name').value = "";
-      document.getElementById('want_to_delete').value = "";
-
-      member_ = [];
+      document.getElementById('want_to_delete').value = "";      
   }
 
   function sort( handler ) {
@@ -81,18 +81,9 @@ var config = {
 
     show();
   }
-  
-  function myPromise() {
-    _promise(true)
-    .then(renewal())
-    .then(show());
-
-    console.log("promise launched");
-  }
 
   function myFunction( event ) {
     _promise(true)
-    .then(renewal())
     .then(switch_( event ))
     .then(init());
   }
@@ -102,7 +93,6 @@ var config = {
     var arr = info.split(",");
     var name = arr[0];
     var age = arr[1];
-    var result;
 
     var postData = {
         age : age
@@ -110,8 +100,9 @@ var config = {
     
     switch ( event ) {
       case 'insert' :
-        result = firebase_.ref('member').child(name).update(postData);
-        console.log(result);
+        init();
+        firebase_.ref('member').child(name).update(postData);
+        console.log('insert');
         break;
         
       case 'search' :    
@@ -134,4 +125,6 @@ var config = {
     }
 
     console.log('switch');
+    init();
+    renewal();
   }
