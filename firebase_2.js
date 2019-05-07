@@ -1,6 +1,6 @@
 // Initialize Firebase
 var config = {
-    apiKey: "",
+    apiKey: "AIzaSyCR4eX2yKvuAfUZuO0dP4M058AvqKT4oM0",
     authDomain: "javascript1-82a50.firebaseapp.com",
     databaseURL: "https://javascript1-82a50.firebaseio.com",
     projectId: "javascript1-82a50",
@@ -11,22 +11,93 @@ var config = {
   firebase.initializeApp(config);
 
   var firebase_ = firebase.database();  
-  var member = [];
-  var strResult;
+  var member_ = [];
   var curious_arr = [];
+  var age_arr = [];
 
-  // firebase_.ref().on('value', function(data) {
-  //     member.push(data.val());
-  //     console.log(data.key);
-  // });
+  var _promise = function (param) {
+    return new Promise(function (resolve, reject) {
+        if (param) {
+            resolve("finish!");
+        } else {
+            reject(Error("error called"));
+        }
+    });
+  };
+
+  // myPromise();
+
+  function renewal() {
+    firebase_.ref('member').on('value', function(data) {
+      // member_.push(data.val());
+      for(i in data.val()) {
+        age_arr.push(data.child(i).val());
+        // console.log(i);
+        // console.log(age_arr[0].age);
+        member_[member_.length] = {name: i, age: age_arr[0].age};
+        // console.log(member_.length);
+        age_arr = [];
+        console.log(member_.length);
+      }
+
+      show();
+    });
+
+    console.log('renewal');
+  }
+
+  function show() {
+    document.getElementById("show").innerHTML = '';
+    
+    for(k=0;k<member_.length;k++) {
+      document.getElementById("show").innerHTML += "NAME : " + member_[k].name + "  |   AGE : " + member_[k].age + "<br/>";
+      console.log(k);
+    }
+    
+    // console.log(member_.length);
+    console.log('show');
+  }
+
+  renewal();
 
   var init = function() {
       document.getElementById('info').value = "";
       document.getElementById('age_from_name').value = "";
       document.getElementById('want_to_delete').value = "";
+
+      member_ = [];
+  }
+
+  function sort( handler ) {
+    switch ( handler ) {
+      case 'name' :
+        member_.sort(function(a, b) {return a.name < b.name ? -1 : a.name > b.name ? 1 : 0});
+        break;
+
+      case 'age' :
+        member_.sort(function(a, b) {return a.age < b.age ? -1 : a.age > b.age ? 1 : 0});
+        break;
+    }
+
+    show();
   }
   
+  function myPromise() {
+    _promise(true)
+    .then(renewal())
+    .then(show());
+
+    console.log("promise launched");
+  }
+
   function myFunction( event ) {
+    _promise(true)
+    .then(renewal())
+    .then(switch_( event ))
+    .then(init());
+  }
+
+  function switch_( event ) {
     var info = document.getElementById("info").value.toString();
     var arr = info.split(",");
     var name = arr[0];
@@ -34,25 +105,25 @@ var config = {
     var result;
 
     var postData = {
-        age : age,
-        name : name
+        age : age
     };
     
     switch ( event ) {
       case 'insert' :
-        result = firebase_.ref(name).update(postData);
-        strResult = "멤버 추가 끝~"
+        result = firebase_.ref('member').child(name).update(postData);
         console.log(result);
         break;
         
       case 'search' :    
         var curious = document.getElementById('age_from_name').value;
         
-        firebase_.ref(curious).on('value', function(data) {
-            curious_arr.push(data.val());
+        firebase_.ref('member').on('value', function(data) {
+            curious_arr.push(data.child(curious).val());
             console.log(curious_arr[0].age);
             document.getElementById('result').innerHTML = curious +" 의 나이는 " + curious_arr[0].age + " 세 입니다.";
         });
+
+        curious_arr = [];
         break;
         
       case 'delete' :
@@ -62,5 +133,5 @@ var config = {
         break;
     }
 
-    init();
+    console.log('switch');
   }
