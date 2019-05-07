@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase.js"></script>
+        <script src=firebase_2.js></script>
+
+        <p>이름과 나이를 쉼표로 구분하여 입력하세요</p>
+        <input id="info"/> <button onClick="myFunction('insert')"> Insert </button>
+        <br>
+        <p>나이를 알아보려는 사람의 이름을 입력하세요</p>
+        <input id="age_from_name"/> <button onClick="myFunction('search')"> Search </button>
+        <br>
+        <p>지우고 싶은 사람의 이름을 입력하세요</p>
+        <input id="want_to_delete"/> <button onClick="myFunction('delete')"> Delete </button>
+        <br>
+        <p>정렬 방식을 선택해주세요</p>
+        <button onClick="sort('name')"> Sort by NAME </button> <button onClick="sort('age')"> Sort by AGE </button>
+        
+        <br>
+        <p id="result"> 결과는 여기에 </p>
+    </body>
+</html>

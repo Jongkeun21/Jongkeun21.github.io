@@ -1,6 +1,6 @@
 // Initialize Firebase
 var config = {
-  apiKey: "",
+  apiKey: "AIzaSyCR4eX2yKvuAfUZuO0dP4M058AvqKT4oM0",
   authDomain: "javascript1-82a50.firebaseapp.com",
   databaseURL: "https://javascript1-82a50.firebaseio.com",
   projectId: "javascript1-82a50",
@@ -10,28 +10,43 @@ var config = {
 
 firebase.initializeApp(config);
 
-var newArray = [];
-var newPostKey = 0;
-// var dbRef = firebase.database().ref().child('text');
 
-// dbRef.on('value', snap => sample.innerText = snap.val());
+var delete_ = document.getElementById('delete_').value;
+var firebase_ = firebase.database();
 
-var insert = function() {
-  // var text = document.getElementById('input_text').value;
-  // console.log(text);
-  // var newData = firebase.database().ref().child(newArray.length.toString());
-  // console.log(newArray.length.toString());
+function insert() {
+  var name = document.getElementById('input_text').value;
+  
+  document.getElementById('input_text').value = "";
+  document.getElementById('delete_').value = "";
 
   var postData = {
-    name: document.getElementById('input_text').value
+    age: 1
   };
   console.log(document.getElementById('input_text').value);
 
-  var updates = {};
-
-  updates[newPostKey] = postData;
-  var result = firebase.database().ref().update(updates);
-  newPostKey++;
+  var result = firebase_.ref(name).update(postData);
 
   console.log(result);
+}
+
+// var insert = function() {
+//   // var text = document.getElementById('input_text').value;
+//   // console.log(text);
+//   // var newData = firebase.database().ref().child(newArray.length.toString());
+//   // console.log(newArray.length.toString());
+
+//   var postData = {
+//     age: 1
+//   };
+//   console.log(document.getElementById('input_text').value);
+
+//   var result = firebase_.ref(name).update(postData);
+
+//   console.log(result);
+// }
+
+var delete_ = function() {
+  firebase_.ref(name).remove();
+  console.log("removed");
 }
