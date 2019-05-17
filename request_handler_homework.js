@@ -10,7 +10,7 @@ function start(response) {
         'charset=UTF-8" />'+
         '</head>'+'<body>'+
         '이름을 입력하세요.'+'<br>'+
-        '<form action="/hello" method="get">'+
+        '<form action="/hello" method="GET">'+
         '<input type="text" name="text"></input>'+
         '<input type="submit" value="입력" />'+
         '</form>'+'</body>'+'</html>';
@@ -20,11 +20,11 @@ function start(response) {
     response.end();
 }
 
-function hello(response, postData) {
+function hello(response, getData) {
     console.log("Request handler 'hello' was called");
 
     response.writeHead(200, {"Content-Type": "text/plain"});
-    response.write("Hello Mr/Ms " + querystring.parse(postData).text);
+    response.write("Hello Mr/Ms " + querystring.parse(getData).text);
     response.end();
 }
 
