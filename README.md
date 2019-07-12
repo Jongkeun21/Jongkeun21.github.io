@@ -1,1 +1,1 @@
-# Jongkeun21.github.io
+# Practice Javascript
